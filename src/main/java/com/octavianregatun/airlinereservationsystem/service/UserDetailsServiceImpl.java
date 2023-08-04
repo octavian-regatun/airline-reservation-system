@@ -3,29 +3,22 @@ package com.octavianregatun.airlinereservationsystem.service;
 import com.octavianregatun.airlinereservationsystem.entity.User;
 import com.octavianregatun.airlinereservationsystem.entity.UserDetailsImpl;
 import com.octavianregatun.airlinereservationsystem.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
-public class UsersServiceImpl implements UsersService {
+public class UserDetailsServiceImpl implements UserDetailsService {
     UserRepository userRepository;
 
-    @Autowired
-    UsersServiceImpl(UserRepository userRepository) {
+    UserDetailsServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     @Override
-    public User findById(int id) {
-        return userRepository.findById(id).get();
-    }
-
-    @Override
-    public List<User> findAll() {
-        return userRepository.findAll();
+    public UserDetails loadUserByUsername(String username) {
+        User user = userRepository.findByEmail(username).get(0);
+        return new UserDetailsImpl(user);
     }
 }

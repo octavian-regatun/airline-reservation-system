@@ -6,8 +6,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import java.util.List;
 
 public interface UsersService {
-    UserDetailsService userDetailsService();
-
     User findById(int id);
 
     List<User> findAll();

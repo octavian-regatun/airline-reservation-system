@@ -1,6 +1,7 @@
 package com.octavianregatun.airlinereservationsystem.security;
 
 import com.octavianregatun.airlinereservationsystem.service.JwtService;
+import com.octavianregatun.airlinereservationsystem.service.UserDetailsServiceImpl;
 import com.octavianregatun.airlinereservationsystem.service.UsersService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -12,6 +13,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -23,11 +25,13 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     JwtService jwtService;
     UsersService usersService;
+    UserDetailsService userDetailsService;
 
     @Autowired
-    JwtAuthenticationFilter(JwtService jwtService, UsersService usersService) {
+    JwtAuthenticationFilter(JwtService jwtService, UsersService usersService, UserDetailsService userDetailsService) {
         this.jwtService = jwtService;
         this.usersService = usersService;
+        this.userDetailsService = userDetailsService;
     }
 
     @Override
@@ -45,7 +49,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         userEmail = jwtService.extractUserName(jwt);
         if (StringUtils.hasText(userEmail)
                 && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = usersService.userDetailsService()
+            UserDetails userDetails = userDetailsService
                     .loadUserByUsername(userEmail);
             if (jwtService.isTokenValid(jwt, userDetails)) {
                 SecurityContext context = SecurityContextHolder.createEmptyContext();

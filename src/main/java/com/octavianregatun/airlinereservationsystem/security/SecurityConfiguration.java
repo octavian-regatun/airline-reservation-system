@@ -1,5 +1,6 @@
 package com.octavianregatun.airlinereservationsystem.security;
 
+import com.octavianregatun.airlinereservationsystem.service.UserDetailsServiceImpl;
 import com.octavianregatun.airlinereservationsystem.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +12,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -25,11 +27,13 @@ import java.util.Arrays;
 public class SecurityConfiguration {
     JwtAuthenticationFilter jwtAuthenticationFilter;
     UsersService usersService;
+    UserDetailsService userDetailsService;
 
     @Autowired
-    SecurityConfiguration(UsersService usersService, JwtAuthenticationFilter jwtAuthenticationFilter) {
+    SecurityConfiguration(UsersService usersService, JwtAuthenticationFilter jwtAuthenticationFilter, UserDetailsService userDetailsService) {
         this.usersService = usersService;
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        this.userDetailsService = userDetailsService;
     }
 
     @Bean
@@ -63,7 +67,7 @@ public class SecurityConfiguration {
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(usersService.userDetailsService());
+        authProvider.setUserDetailsService(userDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
     }
