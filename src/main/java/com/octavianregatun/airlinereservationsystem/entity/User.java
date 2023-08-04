@@ -3,17 +3,10 @@ package com.octavianregatun.airlinereservationsystem.entity;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import java.util.Collection;
-import java.util.List;
 
 @Entity
 @Table(name = "users")
-public class User implements UserDetails {
-    @Column
+public class User {
     @Id
     @GeneratedValue()
     private int id;
@@ -32,18 +25,6 @@ public class User implements UserDetails {
     @Column(name = "updated_at")
     private int updatedAt;
 
-    public User() {
-    }
-
-    public User(String firstName, String lastName, String email, String password, Role role) {
-        this.id = 0;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        this.role = Role.USER;
-    }
-
     public int getId() {
         return id;
     }
@@ -58,6 +39,10 @@ public class User implements UserDetails {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public Role getRole() {
@@ -84,42 +69,20 @@ public class User implements UserDetails {
         this.updatedAt = updatedAt;
     }
 
+    public User() {
+    }
+
+    public User(String firstName, String lastName, String email, String password, Role role) {
+        this.id = 0;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.role = Role.USER;
+    }
+
     public PublicUser getPublicUser() {
         return new PublicUser(this.id, this.firstName, this.lastName, this.email, this.role);
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
-    }
-
-    @Override
-    public String getUsername() {
-        return email;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }

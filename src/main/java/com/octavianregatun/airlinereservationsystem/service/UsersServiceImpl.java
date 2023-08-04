@@ -1,6 +1,7 @@
 package com.octavianregatun.airlinereservationsystem.service;
 
 import com.octavianregatun.airlinereservationsystem.entity.User;
+import com.octavianregatun.airlinereservationsystem.entity.UserDetailsImpl;
 import com.octavianregatun.airlinereservationsystem.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,7 +24,8 @@ public class UsersServiceImpl implements UsersService {
         return new UserDetailsService() {
             @Override
             public UserDetails loadUserByUsername(String username) {
-                return userRepository.findByEmail(username).get(0);
+                User user = userRepository.findByEmail(username).get(0);
+                return new UserDetailsImpl(user);
             }
         };
     }

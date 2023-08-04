@@ -1,6 +1,7 @@
 package com.octavianregatun.airlinereservationsystem.service;
 
 import com.octavianregatun.airlinereservationsystem.entity.User;
+import com.octavianregatun.airlinereservationsystem.entity.UserDetailsImpl;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -27,10 +28,10 @@ public class JwtServiceImpl implements JwtService {
     }
 
     @Override
-    public String generateToken(User userDetails) {
+    public String generateToken(User user) {
         Map<String, Object> extraClaims = new HashMap<String, Object>();
-        extraClaims.put("id", userDetails.getId());
-        return generateToken(extraClaims, userDetails);
+        extraClaims.put("id", user.getId());
+        return generateToken(extraClaims, new UserDetailsImpl(user));
     }
 
     @Override
