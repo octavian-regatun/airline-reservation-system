@@ -1,7 +1,7 @@
 package com.octavianregatun.airlinereservationsystem.security;
 
 import com.octavianregatun.airlinereservationsystem.service.JwtService;
-import com.octavianregatun.airlinereservationsystem.service.UserService;
+import com.octavianregatun.airlinereservationsystem.service.UsersService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,12 +22,12 @@ import java.io.IOException;
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     JwtService jwtService;
-    UserService userService;
+    UsersService usersService;
 
     @Autowired
-    JwtAuthenticationFilter(JwtService jwtService, UserService userService) {
+    JwtAuthenticationFilter(JwtService jwtService, UsersService usersService) {
         this.jwtService = jwtService;
-        this.userService = userService;
+        this.usersService = usersService;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         userEmail = jwtService.extractUserName(jwt);
         if (StringUtils.hasText(userEmail)
                 && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = userService.userDetailsService()
+            UserDetails userDetails = usersService.userDetailsService()
                     .loadUserByUsername(userEmail);
             if (jwtService.isTokenValid(jwt, userDetails)) {
                 SecurityContext context = SecurityContextHolder.createEmptyContext();

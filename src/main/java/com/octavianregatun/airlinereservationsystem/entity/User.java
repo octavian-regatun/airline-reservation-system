@@ -44,6 +44,49 @@ public class User implements UserDetails {
         this.role = Role.USER;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public int getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(int createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public int getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(int updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public PublicUser getPublicUser() {
+        return new PublicUser(this.id, this.firstName, this.lastName, this.email, this.role);
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -51,13 +94,13 @@ public class User implements UserDetails {
     }
 
     @Override
-    public String getPassword() {
-        return password;
+    public String getUsername() {
+        return email;
     }
 
     @Override
-    public String getUsername() {
-        return email;
+    public String getPassword() {
+        return password;
     }
 
     @Override

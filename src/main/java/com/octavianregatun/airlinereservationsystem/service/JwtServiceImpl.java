@@ -1,5 +1,6 @@
 package com.octavianregatun.airlinereservationsystem.service;
 
+import com.octavianregatun.airlinereservationsystem.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -26,8 +27,10 @@ public class JwtServiceImpl implements JwtService {
     }
 
     @Override
-    public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
+    public String generateToken(User userDetails) {
+        Map<String, Object> extraClaims = new HashMap<String, Object>();
+        extraClaims.put("id", userDetails.getId());
+        return generateToken(extraClaims, userDetails);
     }
 
     @Override
@@ -44,7 +47,7 @@ public class JwtServiceImpl implements JwtService {
     private String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
         return Jwts.builder().setClaims(extraClaims).setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000L * 60 * 43800))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256).compact();
     }
 
