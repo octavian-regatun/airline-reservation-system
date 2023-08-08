@@ -6,18 +6,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 @Entity
 @Table(name = "users")
-public class User {
-    @Id
-    @GeneratedValue()
-    private int id;
-    @Column(name = "first_name")
-    private String firstName;
-    @Column(name = "last_name")
-    private String lastName;
-    private String email;
+public class User extends PublicUser {
     private String password;
-    @Enumerated(EnumType.STRING)
-    private Role role;
     @CreatedDate
     @Column(name = "created_at")
     private int createdAt;
@@ -25,32 +15,12 @@ public class User {
     @Column(name = "updated_at")
     private int updatedAt;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getPassword() {
         return password;
     }
 
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public int getCreatedAt() {
@@ -78,11 +48,10 @@ public class User {
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.role = Role.USER;
+        this.role = Role.User;
     }
 
     public PublicUser getPublicUser() {
         return new PublicUser(this.id, this.firstName, this.lastName, this.email, this.role);
     }
-
 }

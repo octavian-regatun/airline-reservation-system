@@ -1,19 +1,19 @@
 package com.octavianregatun.airlinereservationsystem.entity;
 
-public class PublicUser {
-    private int id;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private Role role;
+import jakarta.persistence.*;
 
-    public PublicUser(int id, String firstName, String lastName, String email, Role role) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.role = role;
-    }
+@MappedSuperclass
+public class PublicUser {
+    @Id
+    @GeneratedValue
+    protected int id;
+    @Column(name = "first_name")
+    protected String firstName;
+    @Column(name = "last_name")
+    protected String lastName;
+    protected String email;
+    @Enumerated(EnumType.STRING)
+    protected Role role;
 
     public int getId() {
         return id;
@@ -54,4 +54,16 @@ public class PublicUser {
     public void setRole(Role role) {
         this.role = role;
     }
+
+    public PublicUser() {
+    }
+
+    public PublicUser(int id, String firstName, String lastName, String email, Role role) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.role = role;
+    }
+
 }

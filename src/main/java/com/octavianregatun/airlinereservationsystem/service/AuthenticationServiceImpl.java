@@ -11,9 +11,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
     UserRepository userRepository;
@@ -30,7 +27,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public JwtAuthenticationResponse signup(SignUpRequest request) {
-        User user = new User(request.getFirstName(), request.getLastName(), request.getEmail(), passwordEncoder.encode(request.getPassword()), Role.USER);
+        User user = new User(request.getFirstName(), request.getLastName(), request.getEmail(), passwordEncoder.encode(request.getPassword()), Role.User);
         userRepository.save(user);
         var jwt = jwtService.generateToken(user);
         return new JwtAuthenticationResponse(jwt);
