@@ -2,7 +2,7 @@ package com.octavianregatun.airlinereservationsystem.entity;
 
 import jakarta.persistence.*;
 
-@Entity
+@Entity(name = "aircrafts")
 public class Aircraft {
     @Id
     @GeneratedValue

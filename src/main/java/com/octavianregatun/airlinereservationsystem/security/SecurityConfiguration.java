@@ -1,7 +1,6 @@
 package com.octavianregatun.airlinereservationsystem.security;
 
-import com.octavianregatun.airlinereservationsystem.service.UserDetailsServiceImpl;
-import com.octavianregatun.airlinereservationsystem.service.UsersService;
+import com.octavianregatun.airlinereservationsystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,25 +25,26 @@ import java.util.Arrays;
 @Configuration
 public class SecurityConfiguration {
     JwtAuthenticationFilter jwtAuthenticationFilter;
-    UsersService usersService;
+    UserService userService;
     UserDetailsService userDetailsService;
 
     @Autowired
-    SecurityConfiguration(UsersService usersService, JwtAuthenticationFilter jwtAuthenticationFilter, UserDetailsService userDetailsService) {
-        this.usersService = usersService;
+    SecurityConfiguration(UserService userService, JwtAuthenticationFilter jwtAuthenticationFilter, UserDetailsService userDetailsService) {
+        this.userService = userService;
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
         this.userDetailsService = userDetailsService;
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.cors().and().csrf(AbstractHttpConfigurer::disable)
+        http.cors(cors -> cors.configurationSource(corsConfigurationSource())).csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request ->
-                        request
-                                .requestMatchers("/auth/**").permitAll().anyRequest().authenticated())
+                        request.requestMatchers("/auth/**").permitAll()
+                                .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(authenticationProvider()).addFilterBefore(
-                        jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                .authenticationProvider(authenticationProvider())
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
     }
 
@@ -73,8 +73,7 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config)
-            throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
 }

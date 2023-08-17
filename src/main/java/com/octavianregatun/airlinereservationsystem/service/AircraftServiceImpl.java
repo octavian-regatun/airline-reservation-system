@@ -16,7 +16,7 @@ public class AircraftServiceImpl implements AircraftService {
 
     @Override
     public Aircraft findById(int id) {
-        return null;
+        return aircraftRepository.findById(id).orElse(null);
     }
 
     @Override

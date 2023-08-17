@@ -28,6 +28,11 @@ public class AircraftController {
         return ResponseEntity.ok(aircraftService.findAll());
     }
 
+    @GetMapping("{id}")
+    ResponseEntity<Aircraft> findById(@PathVariable int id) {
+        return ResponseEntity.ok(aircraftService.findById(id));
+    }
+
     @DeleteMapping("{id}")
     ResponseEntity delete(@PathVariable int id) {
         aircraftService.deleteById(id);

@@ -7,15 +7,7 @@ import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class AirlineReservationSystemApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(AirlineReservationSystemApplication.class, args);
-    }
-
-    @Bean
-    CommandLineRunner commandLineRunner() {
-        return runner -> {
-            System.out.println("HEI");
-        };
     }
 }

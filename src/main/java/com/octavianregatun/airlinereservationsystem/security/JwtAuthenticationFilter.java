@@ -1,8 +1,7 @@
 package com.octavianregatun.airlinereservationsystem.security;
 
 import com.octavianregatun.airlinereservationsystem.service.JwtService;
-import com.octavianregatun.airlinereservationsystem.service.UserDetailsServiceImpl;
-import com.octavianregatun.airlinereservationsystem.service.UsersService;
+import com.octavianregatun.airlinereservationsystem.service.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,13 +23,13 @@ import java.io.IOException;
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     JwtService jwtService;
-    UsersService usersService;
+    UserService userService;
     UserDetailsService userDetailsService;
 
     @Autowired
-    JwtAuthenticationFilter(JwtService jwtService, UsersService usersService, UserDetailsService userDetailsService) {
+    JwtAuthenticationFilter(JwtService jwtService, UserService userService, UserDetailsService userDetailsService) {
         this.jwtService = jwtService;
-        this.usersService = usersService;
+        this.userService = userService;
         this.userDetailsService = userDetailsService;
     }
 

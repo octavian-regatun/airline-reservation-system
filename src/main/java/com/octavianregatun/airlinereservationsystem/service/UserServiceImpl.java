@@ -1,21 +1,18 @@
 package com.octavianregatun.airlinereservationsystem.service;
 
 import com.octavianregatun.airlinereservationsystem.entity.User;
-import com.octavianregatun.airlinereservationsystem.entity.UserDetailsImpl;
 import com.octavianregatun.airlinereservationsystem.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class UsersServiceImpl implements UsersService {
+public class UserServiceImpl implements UserService {
     UserRepository userRepository;
 
     @Autowired
-    UsersServiceImpl(UserRepository userRepository) {
+    UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

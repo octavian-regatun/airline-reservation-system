@@ -9,7 +9,7 @@ public class Airport {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinColumn(name = "location_id")
     private Location location;
     private String country;
@@ -20,6 +20,8 @@ public class Airport {
     private String iataCode;
     @Enumerated(EnumType.STRING)
     private AirportType type;
+    @Lob
+    private String image;
 
     public int getId() {
         return id;
@@ -85,10 +87,18 @@ public class Airport {
         this.type = type;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     public Airport() {
     }
 
-    public Airport(int id, String name, Location location, String country, String municipality, String gpsCode, String iataCode, AirportType type) {
+    public Airport(int id, String name, Location location, String country, String municipality, String gpsCode, String iataCode, AirportType type, String image) {
         this.id = id;
         this.name = name;
         this.location = location;
@@ -97,5 +107,6 @@ public class Airport {
         this.gpsCode = gpsCode;
         this.iataCode = iataCode;
         this.type = type;
+        this.image = image;
     }
 }
