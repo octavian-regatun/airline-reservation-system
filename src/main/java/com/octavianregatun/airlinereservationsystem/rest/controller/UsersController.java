@@ -1,7 +1,7 @@
 package com.octavianregatun.airlinereservationsystem.rest.controller;
 
-import com.octavianregatun.airlinereservationsystem.entity.PublicUser;
 import com.octavianregatun.airlinereservationsystem.entity.User;
+import com.octavianregatun.airlinereservationsystem.rest.response.UserResponse;
 import com.octavianregatun.airlinereservationsystem.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,15 +21,18 @@ public class UsersController {
     }
 
     @GetMapping("{id}")
-    ResponseEntity<PublicUser> GetUser(@PathVariable int id) {
-        return ResponseEntity.ok(userService.findById(id).getPublicUser());
+    ResponseEntity<UserResponse> GetUser(@PathVariable int id) {
+        User user = userService.findById(id);
+        UserResponse userResponse = userService.getUserResponse(user);
+
+        return ResponseEntity.ok(userResponse);
     }
 
     @GetMapping
-    ResponseEntity<List<PublicUser>> GetUsers() {
+    ResponseEntity<List<UserResponse>> GetUsers() {
         List<User> users = userService.findAll();
-        List<PublicUser> publicUsers = users.stream().map(user -> user.getPublicUser()).toList();
+        List<UserResponse> userResponseList = userService.getUserResponses(users);
 
-        return ResponseEntity.ok(publicUsers);
+        return ResponseEntity.ok(userResponseList);
     }
 }

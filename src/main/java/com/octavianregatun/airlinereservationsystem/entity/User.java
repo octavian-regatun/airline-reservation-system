@@ -6,7 +6,17 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 @Entity
 @Table(name = "users")
-public class User extends PublicUser {
+public class User {
+    @Id
+    @GeneratedValue
+    protected int id;
+    @Column(name = "first_name")
+    protected String firstName;
+    @Column(name = "last_name")
+    protected String lastName;
+    protected String email;
+    @Enumerated(EnumType.STRING)
+    protected Role role;
     private String password;
     @CreatedDate
     @Column(name = "created_at")
@@ -14,6 +24,47 @@ public class User extends PublicUser {
     @LastModifiedDate
     @Column(name = "updated_at")
     private int updatedAt;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
 
     public String getPassword() {
         return password;
@@ -49,9 +100,5 @@ public class User extends PublicUser {
         this.email = email;
         this.password = password;
         this.role = Role.User;
-    }
-
-    public PublicUser getPublicUser() {
-        return new PublicUser(this.id, this.firstName, this.lastName, this.email, this.role);
     }
 }
