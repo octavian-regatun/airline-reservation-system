@@ -27,4 +27,6 @@ public interface FlightService {
     List<SeatResponse> getUnavailableSeats(int flightId);
 
     List<List<SeatResponse>> getSeats(int flightId);
+
+    List<Flight> filterByMaximumPrice(List<Flight> flights, float maximumPrice);
 }

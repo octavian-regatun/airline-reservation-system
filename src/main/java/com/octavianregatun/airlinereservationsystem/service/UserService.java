@@ -13,4 +13,6 @@ public interface UserService {
     UserResponse getUserResponse(User user);
 
     List<UserResponse> getUserResponses(List<User> users);
+
+    User update(User user);
 }

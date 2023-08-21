@@ -12,4 +12,6 @@ public interface AircraftService {
     List<Aircraft> findAll();
 
     void deleteById(int id);
+
+    Aircraft update(Aircraft aircraft);
 }

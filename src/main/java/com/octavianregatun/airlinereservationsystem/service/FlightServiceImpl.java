@@ -146,15 +146,28 @@ public class FlightServiceImpl implements FlightService {
 
             seat.setRow(row + 1);
             seat.setColumn(column);
-            seat.setAvailable(true);
+            seat.setIsAvailable(true);
 
             if (getUnavailableSeats(flightId).contains(seat)) {
-                seat.setAvailable(false);
+                seat.setIsAvailable(false);
             }
 
             seats.get(row).add(seat);
         }
 
         return seats;
+    }
+
+    @Override
+    public List<Flight> filterByMaximumPrice(List<Flight> flights, float maximumPrice) {
+        List<Flight> filteredFlights = new ArrayList<>();
+
+        for (Flight flight : flights) {
+            if (flight.getPrice() <= maximumPrice) {
+                filteredFlights.add(flight);
+            }
+        }
+
+        return filteredFlights;
     }
 }

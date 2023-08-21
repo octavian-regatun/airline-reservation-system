@@ -16,6 +16,7 @@ public interface TicketService {
     List<Ticket> findAll();
 
     List<Ticket> findByFlightId(int flightId);
+
     List<Ticket> findByFlightIdAndUserId(int flightId, int userId);
 
     void deleteById(int id);
@@ -23,4 +24,6 @@ public interface TicketService {
     TicketResponse getTicketResponse(Ticket ticket, boolean withFlight);
 
     List<TicketResponse> getTicketResponses(List<Ticket> tickets, boolean withFlight);
+
+    List<Ticket> findByUserId(int userId);
 }

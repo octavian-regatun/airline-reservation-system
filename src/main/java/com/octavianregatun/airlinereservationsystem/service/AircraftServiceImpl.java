@@ -33,4 +33,9 @@ public class AircraftServiceImpl implements AircraftService {
     public void deleteById(int id) {
         aircraftRepository.deleteById(id);
     }
+
+    @Override
+    public Aircraft update(Aircraft aircraft) {
+        return aircraftRepository.save(aircraft);
+    }
 }

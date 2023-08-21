@@ -39,6 +39,11 @@ public class TicketController {
         return ResponseEntity.ok(ticketService.getTicketResponses(ticketService.findByFlightIdAndUserId(flightId, userId), true));
     }
 
+    @GetMapping(params = {"userId"})
+    ResponseEntity<List<TicketResponse>> findByUserId(@RequestParam int userId) {
+        return ResponseEntity.ok(ticketService.getTicketResponses(ticketService.findByUserId(userId), true));
+    }
+
     @GetMapping("{id}")
     ResponseEntity<TicketResponse> findById(@PathVariable int id) {
         return ResponseEntity.ok(ticketService.getTicketResponse(ticketService.findById(id), true));

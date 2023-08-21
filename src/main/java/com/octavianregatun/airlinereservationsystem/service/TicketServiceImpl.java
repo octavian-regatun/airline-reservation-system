@@ -1,6 +1,7 @@
 package com.octavianregatun.airlinereservationsystem.service;
 
 import com.octavianregatun.airlinereservationsystem.entity.Ticket;
+import com.octavianregatun.airlinereservationsystem.entity.User;
 import com.octavianregatun.airlinereservationsystem.repository.TicketRepository;
 import com.octavianregatun.airlinereservationsystem.rest.request.TicketRequest;
 import com.octavianregatun.airlinereservationsystem.rest.response.FlightResponse;
@@ -30,7 +31,14 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public Ticket save(Ticket ticket) {
-        return ticketRepository.save(ticket);
+        ticket = ticketRepository.save(ticket);
+
+        User user = ticket.getUser();
+        user.setBalance(user.getBalance() - ticket.getPrice());
+        user = userService.update(user);
+
+        ticket.setUser(user);
+        return ticket;
     }
 
     @Override
@@ -42,7 +50,12 @@ public class TicketServiceImpl implements TicketService {
             ticket.setLastName(ticketRequest.getLastName());
             ticket.setEmail(ticketRequest.getEmail());
             ticket.setFlight(flightService.findById(ticketRequest.getFlightId()));
-            ticket.setUser(userService.findById(ticketRequest.getUserId()));
+
+            User user = userService.findById(ticketRequest.getUserId());
+            user.setBalance(user.getBalance() - flightService.getTicketPrice(ticketRequest.getFlightId()));
+            user = userService.update(user);
+            ticket.setUser(user);
+
             ticket.setSeatColumn(ticketRequest.getSeatColumn());
             ticket.setSeatRow(ticketRequest.getSeatRow());
             ticket.setPrice(flightService.getTicketPrice(ticketRequest.getFlightId()));
@@ -104,5 +117,10 @@ public class TicketServiceImpl implements TicketService {
         }
 
         return ticketResponses;
+    }
+
+    @Override
+    public List<Ticket> findByUserId(int userId) {
+        return ticketRepository.findByUserId(userId);
     }
 }

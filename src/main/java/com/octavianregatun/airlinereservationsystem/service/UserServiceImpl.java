@@ -54,4 +54,9 @@ public class UserServiceImpl implements UserService {
 
         return userResponses;
     }
+
+    @Override
+    public User update(User user) {
+        return userRepository.save(user);
+    }
 }

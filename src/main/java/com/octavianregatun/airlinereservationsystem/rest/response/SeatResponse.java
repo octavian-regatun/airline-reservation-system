@@ -5,7 +5,7 @@ import java.util.Objects;
 public class SeatResponse {
     private int row;
     private char column;
-    private boolean available;
+    private boolean isAvailable;
 
     public int getRow() {
         return row;
@@ -23,12 +23,12 @@ public class SeatResponse {
         this.column = column;
     }
 
-    public boolean isAvailable() {
-        return available;
+    public boolean getIsAvailable() {
+        return isAvailable;
     }
 
-    public void setAvailable(boolean available) {
-        this.available = available;
+    public void setIsAvailable(boolean available) {
+        isAvailable = available;
     }
 
     @Override

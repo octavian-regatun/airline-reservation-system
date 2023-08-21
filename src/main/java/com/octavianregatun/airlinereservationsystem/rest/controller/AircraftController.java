@@ -38,4 +38,9 @@ public class AircraftController {
         aircraftService.deleteById(id);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
+
+    @PutMapping
+    ResponseEntity<Aircraft> update(@RequestBody Aircraft aircraft) {
+        return ResponseEntity.ok(aircraftService.update(aircraft));
+    }
 }

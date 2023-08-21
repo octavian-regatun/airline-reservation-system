@@ -21,11 +21,10 @@ public class UsersController {
     }
 
     @GetMapping("{id}")
-    ResponseEntity<UserResponse> GetUser(@PathVariable int id) {
+    ResponseEntity<User> GetUser(@PathVariable int id) {
         User user = userService.findById(id);
-        UserResponse userResponse = userService.getUserResponse(user);
 
-        return ResponseEntity.ok(userResponse);
+        return ResponseEntity.ok(user);
     }
 
     @GetMapping

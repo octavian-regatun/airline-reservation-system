@@ -1,5 +1,6 @@
 package com.octavianregatun.airlinereservationsystem.rest.controller;
 
+import com.octavianregatun.airlinereservationsystem.entity.Flight;
 import com.octavianregatun.airlinereservationsystem.rest.request.FlightRequest;
 import com.octavianregatun.airlinereservationsystem.rest.response.FlightResponse;
 import com.octavianregatun.airlinereservationsystem.rest.response.SeatResponse;
@@ -19,9 +20,13 @@ public class FlightController {
     }
 
     @GetMapping
-    public ResponseEntity<List<FlightResponse>> findAll() {
-        return ResponseEntity.ok(flightService.getFlightResponseList(flightService.findAll(), true));
+    public ResponseEntity<List<FlightResponse>> findAll(@RequestParam(required = false) Float maximumPrice) {
+        List<Flight> flights = flightService.findAll();
+        if (maximumPrice != null)
+            flights = flightService.filterByMaximumPrice(flights, maximumPrice);
+        return ResponseEntity.ok(flightService.getFlightResponseList(flights, true));
     }
+
 
     @GetMapping("{id}")
     public ResponseEntity<FlightResponse> findById(@PathVariable int id) {
